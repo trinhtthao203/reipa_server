@@ -62,6 +62,7 @@ const initWebRoutes = (app) => {
     //zoning
     router.post("/api/zoning/get_all", zoningController.getAllZoning)
     router.post("/api/zoning/get_by_id", zoningController.getByID)
+    router.post("/api/zoning/geojson_by_id", zoningController.getGeoJSONByID)
     router.post("/api/zoning/get_by_user_id", zoningController.getByUserID)
     router.post("/api/zoning/add_zonings", zoningController.addZoning);
     router.post("/api/zoning/delete_zonings", zoningController.deleteZoning);
@@ -71,6 +72,7 @@ const initWebRoutes = (app) => {
     router.post("/api/zoning/zonings_polygon_id", zoningController.getZoningPolygonID)
     router.post("/api/zoning/zonings_polyline_by_distance", zoningController.getZoningPolylineDistance)
     router.post("/api/zoning/update_status", middlewareController.verifyTokenAndStaffAuth, zoningController.updateStatus)
+    router.post("/api/zoning/update", zoningController.updateZoning)
 
     //type of zoning
     router.get("/api/type_of_zoning/get_all_type", typeofZoningController.getAllType)
@@ -87,12 +89,15 @@ const initWebRoutes = (app) => {
     router.post("/api/post/get_by_id", postController.getByID);
     router.post("/api/post/get_by_user_id", postController.getByUserID);
     router.post("/api/post/geojson_post", postController.getGeoJSONPost);
+    router.post("/api/post/geojson_post_by_id", postController.getGeoJSONPostByID);
     router.post("/api/post/post_by_distance_latlng", postController.getPostByDistanceLatLng);
     router.get("/api/post/type_of_post", postController.getTypeofPost);
     router.get("/api/post/type_of_real_estate", postController.getTypeofRealEstate);
     router.get("/api/post/juridical", postController.getJuridical);
     router.get("/api/post/furniture", postController.getFurniture);
+    router.post("/api/post/delete_post", postController.deletePost);
     router.post("/api/post/update_status", middlewareController.verifyTokenAndStaffAuth, postController.updateStatus)
+    router.post("/api/post/update", postController.updatePost)
     //get province_id, district_id, ward_id by lat,lng
     router.post("/api/get_address_by_latlng", postController.getAddressByLatLng);
 

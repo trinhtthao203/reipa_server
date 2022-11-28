@@ -217,7 +217,7 @@ const getByUserID = async (req, res) => {
         return res.status(400).json({
             code: 400,
             data: {
-                message: Strings.POST.REQUEST_ID_MESSAGE,
+                message: Strings.POST.REQUEST_USER_ID_MESSAGE,
             }
         })
     }
@@ -245,6 +245,59 @@ const updateStatus = async (req, res) => {
     })
 }
 
+const deletePost = async (req, res) => {
+    const { post_id } = req.body;
+    if (!post_id) {
+        return res.status(400).json({
+            code: 400,
+            data: {
+                message: Strings.POST.REQUEST_ID_MESSAGE
+            }
+        })
+    }
+    let postData = await postService.handleDelete(post_id);
+    return res.status(200).json({
+        code: postData.code,
+        data: postData.data ? postData.data : {}
+    })
+}
+const getGeoJSONPostByID = async (req, res) => {
+    const { post_id } = req.body;
+    if (!post_id) {
+        return res.status(400).json({
+            code: 400,
+            data: {
+                message: Strings.POST.REQUEST_ID_MESSAGE
+            }
+        })
+    }
+    let postData = await postService.handleGetGeoJSONPostByID(post_id);
+    return res.status(200).json({
+        code: postData.code,
+        data: postData.data ? postData.data : {}
+    })
+}
+
+const updatePost = async (req, res) => {
+    image_upload(req, res, function (err) {
+        const { id } = req.body;
+        console.log(req.body)
+        if (!id) {
+            return res.status(400).json({
+                code: 400,
+                data: {
+                    message: Strings.Message.FEILD_REQUIRED_MESSAGE,
+                }
+            })
+        }
+        let postData = postService.handleUpdatePost(req.body);
+        return res.status(200).json({
+            code: postData.code,
+            data: postData.data ? postData.data : {}
+        })
+    })
+
+}
 module.exports = {
     addPost: addPost,
     getPostByDistanceLatLng: getPostByDistanceLatLng,
@@ -257,5 +310,8 @@ module.exports = {
     getAll: getAll,
     getByID: getByID,
     getByUserID: getByUserID,
-    updateStatus: updateStatus
+    updateStatus: updateStatus,
+    deletePost: deletePost,
+    getGeoJSONPostByID: getGeoJSONPostByID,
+    updatePost: updatePost
 }

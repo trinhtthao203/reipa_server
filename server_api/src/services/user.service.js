@@ -170,11 +170,12 @@ const handleGetUser = (id) => {
 }
 
 const handleUserRegister = (userInfo) => {
-    console.log(userInfo)
     return new Promise(async (resolve, reject) => {
         try {
+            let max = await db.Users.max('id');
             let hashPasswordFromBcrypt = await hashUserPassword(userInfo.password);
             await db.Users.create({
+                id: max + 1,
                 phonenumber: userInfo.phonenumber,
                 password: hashPasswordFromBcrypt,
                 fullname: userInfo.fullname,

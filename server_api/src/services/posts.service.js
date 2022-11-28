@@ -12,8 +12,11 @@ const { QueryTypes } = require('sequelize');
 
 const handleUploadImage = async (id, dataImage) => {
     try {
-        let newArray = dataImage.map((item) => {
+        let max = await db.Images.max('id');
+        let newArray = dataImage.map((item, ind) => {
+            ++max;
             return {
+                "id": max,
                 "name": item.filename,
                 "post_id": id,
             }
@@ -27,7 +30,9 @@ const handleUploadImage = async (id, dataImage) => {
 const handleAddPost = (post, dataImage) => {
     return new Promise(async (resolve, reject) => {
         try {
+            const max = await db.Posts.max('id');
             let postData = await db.Posts.create({
+                id: max + 1,
                 title: post.title,
                 price: post.price,
                 address: post.address,
@@ -361,7 +366,10 @@ const handleGetPostByUserID = (user_id) => {
         try {
             let postData = await sequelize.query(
                 `
-                SELECT * FROM public."Posts" WHERE user_id=?
+                SELECT pos.*, sta.name as status_name
+                FROM public."Posts" AS pos 
+                LEFT JOIN public."Status" AS sta ON pos.status_id=sta.id
+                WHERE pos.user_id=?
                 `,
                 {
                     replacements: [user_id],
@@ -419,6 +427,118 @@ const handleUpdateStatus = (post) => {
         }
     })
 }
+const handleDelete = (post_id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let postData = await sequelize.query(
+                `
+                DELETE FROM public."Images" WHERE post_id=(?);
+                DELETE FROM public."Posts" WHERE id=(?);
+                `,
+                {
+                    replacements: [post_id, post_id],
+                    type: QueryTypes.DELETE
+                }
+            );
+            if (postData) {
+                resolve({
+                    code: 200,
+                    data: { message: Strings.Zoning.DELETE_SUCCESS }
+                });
+            } else {
+                resolve({
+                    code: 400,
+                    data: { message: Strings.POST.NOT_EXIST_ID_MESSAGE }
+                });
+            }
+        } catch (err) {
+            reject(err);
+        }
+    })
+}
+
+const handleGetGeoJSONPostByID = async (post_id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let postData = await sequelize.query(
+                `SELECT json_build_object(
+                    'type', 'FeatureCollection',
+                    'features', json_agg(ST_AsGeoJSON(row.*)::json)
+                    )
+                FROM (SELECT * FROM public."Posts" WHERE id=?) row`,
+                {
+                    replacements: [post_id],
+                    type: QueryTypes.SELECT
+                }
+            );
+            if (postData) {
+                resolve({
+                    code: 200,
+                    data: postData
+                });
+            } else {
+                resolve({
+                    code: 400,
+                    data: {
+                        message: Strings.Message.NOT_FOUND_MESSAGE,
+                    }
+                });
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    })
+}
+const handleUpdatePost = (post) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.Posts.update(
+                {
+                    title: post.title,
+                    area: post.area,
+                    price: post.price,
+                    furniture_id: post.furniture_id,
+                    juridical_id: post.juridical_id,
+                    bedroom: post.bedroom,
+                    toilet: post.toilet,
+                    structure: post.structure,
+                    address: post.address,
+                    geometry: post.coordinates,
+                    description: post.description,
+                    user_id: post.user_id,
+                    province_id: post.province_id,
+                    district_id: post.district_id ? post.district_id : null,
+                    ward_id: post.ward_id ? post.ward_id : null,
+                    street_id: post.street_id ? post.street_id : null,
+                    typeof_posts_id: post.typeof_posts_id,
+                    typeof_real_estate_id: post.typeof_real_estate_id,
+                    status_id: 1,
+                },
+                { where: { id: post.id } }
+            )
+                .then(async (result) => {
+                    if (result[0]) {
+                        resolve({
+                            code: 200,
+                            data: {
+                                message: "Cập nhật thành công"
+                            }
+                        })
+                    } else {
+                        resolve({
+                            code: 400,
+                            data: {
+                                message: "Các thông tin nhập vào chưa chính xác. Vui lòng kiểm tra lại",
+                            }
+                        })
+                    }
+                })
+        } catch (e) {
+            console.log(e);
+        }
+    })
+}
+
 
 module.exports = {
     handleAddPost: handleAddPost,
@@ -432,5 +552,8 @@ module.exports = {
     handleGetAll: handleGetAll,
     handleGetPostByID: handleGetPostByID,
     handleGetPostByUserID: handleGetPostByUserID,
-    handleUpdateStatus: handleUpdateStatus
+    handleUpdateStatus: handleUpdateStatus,
+    handleDelete: handleDelete,
+    handleGetGeoJSONPostByID: handleGetGeoJSONPostByID,
+    handleUpdatePost: handleUpdatePost
 }

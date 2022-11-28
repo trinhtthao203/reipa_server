@@ -145,8 +145,11 @@ const handleGetGeoJSONZoningPolyline = async (status_id) => {
 
 const handleUploadImage = async (id, dataImage) => {
     try {
+        let max = await db.Images.max('id');
         let newArray = dataImage.map((item) => {
+            ++max;
             return {
+                "id": max,
                 "name": item.filename,
                 "zoning_id": id,
             }
@@ -160,7 +163,9 @@ const handleUploadImage = async (id, dataImage) => {
 const handleAddZoning = (zoning, dataImage) => {
     return new Promise(async (resolve, reject) => {
         try {
+            const max = await db.Zonings.max('id');
             let zoningData = await db.Zonings.create({
+                id: max + 1,
                 name: zoning.name,
                 purpose: zoning.purpose,
                 area: zoning.area,
@@ -388,7 +393,7 @@ const handleUpdateStatus = (zoning) => {
         try {
             await db.Zonings.update(
                 {
-                    status_id: zoning.status_id,
+                    status_id: zoning.status_id
                 },
                 { where: { id: zoning.zoning_id } }
             )
@@ -414,7 +419,87 @@ const handleUpdateStatus = (zoning) => {
         }
     })
 }
+const handleGetGeoJSONByID = async (zoning_id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let zoningData = await sequelize.query(
+                `SELECT json_build_object(
+                    'type', 'FeatureCollection',
+                    'features', json_agg(ST_AsGeoJSON(row.*)::json)
+                    )
+                FROM (SELECT * FROM public."Zonings" WHERE id=?) row`,
+                {
+                    replacements: [zoning_id],
+                    type: QueryTypes.SELECT
+                }
+            );
+            if (zoningData) {
+                resolve({
+                    code: 200,
+                    data: {
+                        zoning: zoningData,
+                    }
+                });
+            } else {
+                resolve({
+                    code: 400,
+                    data: {
+                        message: Strings.Message.NOT_FOUND_MESSAGE,
+                    }
+                });
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    })
+}
 
+const handleUpdateZoning = (zoning) => {
+    console.log(zoning)
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.Zonings.update(
+                {
+                    name: zoning.name,
+                    purpose: zoning.purpose,
+                    area: zoning.area,
+                    width: zoning.width,
+                    length: zoning.length,
+                    address: zoning.address,
+                    geometry: zoning.coordinates,
+                    ispolygon: zoning.ispolygon,
+                    description: zoning.description,
+                    province_id: zoning.province_id,
+                    district_id: zoning.district_id ? zoning.district_id : null,
+                    ward_id: zoning.ward_id ? zoning.ward_id : null,
+                    user_id: zoning.user_id,
+                    typeof_zoning_id: zoning.typeof_zoning_id,
+                    status_id: 1,
+                },
+                { where: { id: zoning.id } }
+            )
+                .then(async (result) => {
+                    if (result[0]) {
+                        resolve({
+                            code: 200,
+                            data: {
+                                message: "Cập nhật thành công"
+                            }
+                        })
+                    } else {
+                        resolve({
+                            code: 400,
+                            data: {
+                                message: "Các thông tin nhập vào chưa chính xác. Vui lòng kiểm tra lại",
+                            }
+                        })
+                    }
+                })
+        } catch (e) {
+            console.log(e);
+        }
+    })
+}
 
 module.exports = {
     handleGetAllZoning: handleGetAllZoning,
@@ -427,5 +512,7 @@ module.exports = {
     handleGetZoningByID: handleGetZoningByID,
     handleGetZoningByUserID: handleGetZoningByUserID,
     handleDeleteZoning: handleDeleteZoning,
-    handleUpdateStatus: handleUpdateStatus
+    handleUpdateStatus: handleUpdateStatus,
+    handleGetGeoJSONByID: handleGetGeoJSONByID,
+    handleUpdateZoning: handleUpdateZoning
 }

@@ -104,6 +104,7 @@ export default {
     POST: {
         ADD_POST_SUCCESS: "Thêm bài đăng thành công",
         REQUEST_ID_MESSAGE: "Vui lòng nhập mã bài đăng",
+        REQUEST_USER_ID_MESSAGE: "Vui lòng nhập mã người dùng",
         NOT_EXIST_ID_MESSAGE: "Mã bài đăng không tồn tại",
         REQUIRE_LATLNG_DISTANCE_MESSAGE: "Vui lòng nhập latlng và khoảng cách",
     }

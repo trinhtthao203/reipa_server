@@ -276,6 +276,45 @@ const updateStatus = async (req, res) => {
     })
 }
 
+const getGeoJSONByID = async (req, res) => {
+    const { zoning_id } = req.body;
+    if (!zoning_id) {
+        return res.status(400).json({
+            code: 400,
+            data: {
+                message: Strings.Zoning.REQUEST_ID_MESSAGE,
+            }
+        })
+    }
+    let zoningData = await zoningService.handleGetGeoJSONByID(zoning_id);
+    return res.status(200).json({
+        code: zoningData.code,
+        data: zoningData.data ? zoningData.data : {}
+    })
+}
+
+const updateZoning = async (req, res) => {
+    image_upload(req, res, function (err) {
+        const zoning = req.body;
+        const { id } = req.body;
+        console.log(req.body)
+        if (!id) {
+            return res.status(400).json({
+                code: 400,
+                data: {
+                    message: Strings.Message.FEILD_REQUIRED_MESSAGE,
+                }
+            })
+        }
+        let zoningData = zoningService.handleUpdateZoning(req.body);
+        return res.status(200).json({
+            code: zoningData.code,
+            data: zoningData.data ? zoningData.data : {}
+        })
+    })
+
+}
+
 module.exports = {
     getAllZoning: getAllZoning,
     addZoning: addZoning,
@@ -288,4 +327,6 @@ module.exports = {
     getByUserID: getByUserID,
     deleteZoning: deleteZoning,
     updateStatus: updateStatus,
+    getGeoJSONByID: getGeoJSONByID,
+    updateZoning: updateZoning,
 }

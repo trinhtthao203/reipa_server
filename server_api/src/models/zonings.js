@@ -30,6 +30,8 @@ module.exports = (sequelize, DataTypes) => {
     geometry: DataTypes.GEOMETRY,
     ispolygon: DataTypes.BOOLEAN,
     description: DataTypes.TEXT,
+    province_id: DataTypes.INTEGER,
+    district_id: DataTypes.INTEGER,
     ward_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER,
     typeof_zoning_id: DataTypes.INTEGER,
