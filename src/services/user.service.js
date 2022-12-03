@@ -92,7 +92,7 @@ class UserService extends BaseService {
         return result.data;
     }
 
-    register = async (phonenumber, password, fullname, address, street_id, ward_id, role_id) => {
+    register = async (phonenumber, password, fullname, address, role_id) => {
         const result = await this.api.post({
             path: Constants.ApiPath.REGISTER,
             data: {
@@ -100,8 +100,6 @@ class UserService extends BaseService {
                 password: password,
                 fullname: fullname,
                 address: address,
-                street_id: street_id,
-                ward_id: ward_id,
                 role_id: role_id,
             }
         });

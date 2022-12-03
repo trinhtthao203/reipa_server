@@ -19,7 +19,7 @@ module.exports = {
           ]
         })),
         user_id: 3,
-        furniture_id: 1,
+        furniture_id: 3,
         juridical_id: 1,
         province_id: 20,
         district_id: 180,
@@ -79,7 +79,7 @@ module.exports = {
           ]
         })),
         user_id: 4,
-        furniture_id: 1,
+        furniture_id: 3,
         juridical_id: 5,
         province_id: 20,
         district_id: 181,
@@ -109,8 +109,8 @@ module.exports = {
           ]
         })),
         user_id: 4,
-        furniture_id: 1,
-        juridical_id: 5,
+        furniture_id: 3,
+        juridical_id: 1,
         province_id: 20,
         district_id: 180,
         ward_id: 2376,
@@ -139,7 +139,7 @@ module.exports = {
           ]
         })),
         user_id: 5,
-        furniture_id: 1,
+        furniture_id: 2,
         juridical_id: 5,
         province_id: 20,
         district_id: 180,
@@ -169,7 +169,7 @@ module.exports = {
           ]
         })),
         user_id: 4,
-        furniture_id: 1,
+        furniture_id: 3,
         juridical_id: 5,
         province_id: 20,
         district_id: 180,
@@ -200,7 +200,7 @@ module.exports = {
         })),
         user_id: 7,
         furniture_id: 1,
-        juridical_id: 5,
+        juridical_id: 1,
         province_id: 20,
         district_id: 180,
         ward_id: 2376,
@@ -229,8 +229,8 @@ module.exports = {
           ]
         })),
         user_id: 4,
-        furniture_id: 1,
-        juridical_id: 5,
+        furniture_id: 3,
+        juridical_id: 2,
         province_id: 20,
         district_id: 180,
         ward_id: 2366,

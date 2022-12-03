@@ -7,18 +7,6 @@ import Constants from '../../constants';
 import Strings from '../../constants/strings';
 import { useNavigate, useLocation } from "react-router-dom";
 import {
-    storeProvinceList
-} from "../../store/slice/province.slice";
-import {
-    storeDistrictList
-} from "../../store/slice/district.slice";
-import {
-    storeWardList
-} from "../../store/slice/ward.slice";
-import {
-    storeStreetList
-} from "../../store/slice/street.slice";
-import {
     storeRoleList
 } from "../../store/slice/role.slice";
 
@@ -42,10 +30,6 @@ export default function HandleAccount() {
         address: "",
         avatar: "",
         role_id: "",
-        province_id: "",
-        district_id: "",
-        ward_id: "",
-        street_id: "",
     });
     const updateUser = (newState) => {
         setUser((prevState) => ({
@@ -61,7 +45,6 @@ export default function HandleAccount() {
                 fullname: result.data[0].fullname,
                 phonenumber: result.data[0].phonenumber,
                 address: result.data[0].address,
-                province_id: result.data[0].province_id,
                 role_id: result.data[0].role_id,
             })
         } catch (err) {
@@ -72,27 +55,11 @@ export default function HandleAccount() {
     const { roleList } = useSelector(
         (state) => state.role
     );
-    const { provinceList } = useSelector(
-        (state) => state.province
-    );
-    const { districtList } = useSelector(
-        (state) => state.district
-    );
-    const { wardList } = useSelector(
-        (state) => state.ward
-    );
-    const { streetList } = useSelector(
-        (state) => state.street
-    );
 
     const [errorUser, setErrorUser] = React.useState({
         errorName: false,
         errorPhone: false,
         errorRole: false,
-        errorProvince: false,
-        errorDistrict: false,
-        errorWard: false,
-        errorStreet: false,
         errorNameMsg: null,
         errorPhoneMsg: null,
         errorRoleMsg: null
@@ -128,33 +95,9 @@ export default function HandleAccount() {
             updateErrorUser({ errorRole: false });
         }
 
-        if (Helpers.isNullOrEmpty(user.province_id)) {
-            updateErrorUser({ errorProvince: true });
-        } else {
-            updateErrorUser({ errorProvince: false });
-        }
-
-        if (Helpers.isNullOrEmpty(user.district_id)) {
-            updateErrorUser({ errorDistrict: true });
-        } else {
-            updateErrorUser({ errorDistrict: false });
-        }
-
-        if (Helpers.isNullOrEmpty(user.ward_id)) {
-            updateErrorUser({ errorWard: true });
-        } else {
-            updateErrorUser({ errorWard: false });
-        }
-
-        if (Helpers.isNullOrEmpty(user.street_id)) {
-            updateErrorUser({ errorStreet: true });
-        } else {
-            updateErrorUser({ errorStreet: false });
-        }
-
         if (Helpers.isNullOrEmpty(user.fullname) === false && Helpers.isNullOrEmpty(user.phonenumber) === false && Constants.RegExp.PHONE_NUMBER.test(user.phonenumber) === true && Helpers.isNullOrEmpty(user.role_id) === false) {
             try {
-                var result = await userService.register(user.phonenumber, user.password, user.fullname, user.address, user.street_id, user.ward_id, user.role_id);
+                var result = await userService.register(user.phonenumber, user.password, user.fullname, user.address, user.role_id);
                 if (result.code === 200)
                     Swal.fire({
                         title: Strings.ALert.SUCCESS,
@@ -229,21 +172,6 @@ export default function HandleAccount() {
     const handleChangeRole = (event) => {
         updateUser({ role_id: event.target.value });
     };
-    const handleChangeProvince = (event) => {
-        updateUser({ province_id: event.target.value });
-        getDistrictList(event.target.value);
-    };
-    const handleChangeDistrict = (event) => {
-        updateUser({ district_id: event.target.value });
-        getWardList(user.province_id, event.target.value)
-        getStreetList(user.province_id, event.target.value)
-    };
-    const handleChangeWard = (event) => {
-        updateUser({ ward_id: event.target.value });
-    };
-    const handleChangeStreet = (event) => {
-        updateUser({ street_id: event.target.value });
-    };
 
     const getAllRole = async () => {
         try {
@@ -261,39 +189,7 @@ export default function HandleAccount() {
         }
     }
 
-    const getProvinceList = async () => {
-        try {
-            var result = await userService.getProvince();
-            dispatch(storeProvinceList(result.data.provinces));
-        } catch (err) {
-            console.log(err);
-        }
-    }
 
-    const getDistrictList = async (province_id) => {
-        try {
-            var result = await userService.getDistrictByProvince(province_id);
-            dispatch(storeDistrictList(result.data.district));
-        } catch (err) {
-            console.log(err);
-        }
-    }
-    const getWardList = async (province_id, district_id) => {
-        try {
-            var result = await userService.getWardByProvinceDistrict(province_id, district_id);
-            dispatch(storeWardList(result.data.ward));
-        } catch (err) {
-            console.log(err);
-        }
-    }
-    const getStreetList = async (province_id, district_id) => {
-        try {
-            var result = await userService.getStreetByProvinceDistrict(province_id, district_id);
-            dispatch(storeStreetList(result.data.streets));
-        } catch (err) {
-            console.log(err);
-        }
-    }
     React.useEffect(() => {
         if (location.state) {
             let user_id = location.state.user_id;
@@ -304,7 +200,6 @@ export default function HandleAccount() {
         if (roleList.length <= 0) {
             getAllRole();
         }
-        getProvinceList();
     }, []);
 
     return (
@@ -383,74 +278,6 @@ export default function HandleAccount() {
                                         </Select>
                                     </FormControl>
                                 </Grid>
-                                {!isUpdate && <Grid item xs={12}>
-                                    <FormControl fullWidth>
-                                        <InputLabel required id="demo-simple-select-label">{Strings.Province.TITLE}</InputLabel>
-                                        <Select
-                                            error={errorUser.errorProvince}
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={user.province_id}
-                                            label={Strings.Province.TITLE}
-                                            onChange={handleChangeProvince}
-                                        >
-                                            {provinceList.length && provinceList.map((role, ind) =>
-                                                <MenuItem key={ind} value={role.id}>{role.name}</MenuItem>
-                                            )}
-                                        </Select>
-                                    </FormControl>
-                                </Grid>}
-                                {!isUpdate && <Grid item xs={12}>
-                                    <FormControl fullWidth>
-                                        <InputLabel required id="demo-simple-select-label">{Strings.District.TITLE}</InputLabel>
-                                        <Select
-                                            error={errorUser.errorDistrict}
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={user.district_id}
-                                            label={Strings.District.TITLE}
-                                            onChange={handleChangeDistrict}
-                                        >
-                                            {districtList.length && districtList.map((role, ind) =>
-                                                <MenuItem key={ind} value={role.id}>{role.name}</MenuItem>
-                                            )}
-                                        </Select>
-                                    </FormControl>
-                                </Grid>}
-                                {!isUpdate && <Grid item xs={12}>
-                                    <FormControl fullWidth>
-                                        <InputLabel required id="demo-simple-select-label">{Strings.Ward.TITLE}</InputLabel>
-                                        <Select
-                                            error={errorUser.errorWard}
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={user.ward_id}
-                                            label={Strings.Ward.TITLE}
-                                            onChange={handleChangeWard}
-                                        >
-                                            {wardList.length && wardList.map((role, ind) =>
-                                                <MenuItem key={ind} value={role.id}>{role.name}</MenuItem>
-                                            )}
-                                        </Select>
-                                    </FormControl>
-                                </Grid>}
-                                {!isUpdate && <Grid item xs={12}>
-                                    <FormControl fullWidth>
-                                        <InputLabel required id="demo-simple-select-label">{Strings.Street.TITLE}</InputLabel>
-                                        <Select
-                                            error={errorUser.errorStreet}
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={user.street_id}
-                                            label={Strings.Street.TITLE}
-                                            onChange={handleChangeStreet}
-                                        >
-                                            {streetList.length && streetList.map((role, ind) =>
-                                                <MenuItem key={ind} value={role.id}>{role.name}</MenuItem>
-                                            )}
-                                        </Select>
-                                    </FormControl>
-                                </Grid>}
                                 <Grid item xs={12}>
                                     {!isUpdate && <Button
                                         type="submit"
@@ -470,6 +297,14 @@ export default function HandleAccount() {
                                     >
                                         Cập nhật
                                     </Button>}
+                                    <Button
+                                        fullWidth
+                                        onClick={(e) => { navigate("/account", { replace: true }); }}
+                                        variant="outlined"
+                                        sx={{ mt: 1 }}
+                                    >
+                                        Hủy
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </Box>

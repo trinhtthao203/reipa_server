@@ -333,8 +333,8 @@ const handleGetPostByID = (post_id) => {
                 LEFT JOIN public."Wards" AS w ON pos.ward_id=w.id
                 LEFT JOIN public."Streets" AS s ON pos.street_id=s.id
                 LEFT JOIN public."Users" AS u ON pos.user_id = u.id
-                LEFT JOIN public."Juridicals" AS j ON pos.user_id = j.id
-                LEFT JOIN public."Furnitures" AS f ON pos.user_id = f.id
+                LEFT JOIN public."Juridicals" AS j ON pos.juridical_id = j.id
+                LEFT JOIN public."Furnitures" AS f ON pos.furniture_id = f.id
                 WHERE pos.id=?
                 `,
                 {

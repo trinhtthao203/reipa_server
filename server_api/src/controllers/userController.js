@@ -114,8 +114,9 @@ const handleCheckPhoneNumber = async (req, res) => {
 
 
 const handleRegister = async (req, res) => {
-    const { phonenumber, password, fullname, ward_id, street_id, role_id } = req.body;
-    if (!phonenumber || !password || !fullname || !ward_id || !street_id || !role_id) {
+    console.log(req.body)
+    const { phonenumber, password, fullname, role_id } = req.body;
+    if (!phonenumber || !password || !fullname || !role_id) {
         return res.status(400).json({
             code: 400,
             data: {

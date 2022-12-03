@@ -36,6 +36,10 @@ const MainHeader = () => {
                 path: Screens.ACCOUNT
             },
             {
+                name: Strings.Statistics.TITLE,
+                path: Screens.STATISTICS
+            },
+            {
                 name: Strings.Profile.TITLE,
                 path: Screens.PROFILE
             },
@@ -53,10 +57,6 @@ const MainHeader = () => {
             {
                 name: Strings.Database.TITLE,
                 path: Screens.DATABASE
-            },
-            {
-                name: Strings.Statistics.TITLE,
-                path: Screens.STATISTICS
             },
             {
                 name: Strings.Profile.TITLE,

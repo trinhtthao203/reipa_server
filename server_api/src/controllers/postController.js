@@ -31,7 +31,7 @@ const addPost = async (req, res) => {
     image_upload(req, res, function (err) {
         const post = req.body;
         const dataImage = req.files;
-        console.log(req.body)
+        console.log(req.body);
         if (!post.title || !post.price || !post.address || !post.typeof_posts_id || !post.typeof_real_estate_id || !post.user_id || !post.status_id || !post.province_id) {
             return res.status(401).json({
                 code: 401,

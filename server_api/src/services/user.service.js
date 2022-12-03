@@ -181,8 +181,6 @@ const handleUserRegister = (userInfo) => {
                 fullname: userInfo.fullname,
                 avatar: "",
                 address: userInfo.address,
-                street_id: userInfo.street_id,
-                ward_id: userInfo.ward_id,
                 role_id: userInfo.role_id,
             })
             resolve({
@@ -365,8 +363,6 @@ const handleUpdateUser = (user, userImage) => {
                     role_id: user.role_id,
                     address: user.address,
                     avatar: userImage ? userImage.filename : null,
-                    ward_id: user.ward_id,
-                    street_id: user.street_id,
                 },
                 { where: { id: user.id } }
             )
