@@ -9,6 +9,7 @@ import Strings from "../../constants/strings";
 import { useNavigate } from "react-router-dom";
 import UserService from "../../services/user.service";
 import Screens from "../../constants/screens";
+import Helper from "../../commons/helpers"
 const userService = new UserService();
 
 const AccountTable = (props) => {
@@ -21,6 +22,7 @@ const AccountTable = (props) => {
             phonenumber: account.phonenumber,
             address: account.address,
             avatar: account.avatar,
+            createdAt: Helper.formatDateForInput(account.createdAt),
             role: props.role?.find((item) => item.id === account.role_id)?.name,
         };
     }) || [];
@@ -48,7 +50,7 @@ const AccountTable = (props) => {
         {
             field: "phonenumber",
             headerName: "Số điện thoại",
-            width: 130
+            width: 110
         },
         {
             field: "role",
@@ -66,7 +68,11 @@ const AccountTable = (props) => {
             width: 100,
             renderCell: renderImage
         },
-
+        {
+            field: "createdAt",
+            headerName: "Ngày tham gia",
+            width: 130,
+        },
         {
             field: "col5", headerName: "", width: 150, renderCell: (params) => [
                 <Button onClick={() => handleUpdate(params.id)} ><Edit sx={{ color: Constants.Styles.COLOR_ATHENSGRAY }} /></Button>,

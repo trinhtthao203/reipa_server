@@ -9,6 +9,7 @@ import postController from "../controllers/postController";
 import typeofZoningController from "../controllers/typeofZoningController";
 import imagesController from "../controllers/imageController";
 import statusController from "../controllers/statusController";
+import statisticController from "../controllers/statisticContoller";
 let router = express.Router();
 import dotenv from "dotenv";
 
@@ -23,9 +24,7 @@ const initWebRoutes = (app) => {
     //user
     router.post("/api/logout", userController.handleLogOut)
     router.post("/api/auth/login", userController.handleLogIn)
-
     router.get("/api/roles/get-all", middlewareController.verifyTokenAndAdminAuth, userController.getAllRole)
-
     router.post("/api/user/get-by-id", userController.getByID)
     router.post("/api/user/get-all", middlewareController.verifyTokenAndAdminAuth, userController.getAllUser)
     router.post("/api/user/delete", middlewareController.verifyTokenAndAdminAuth, userController.deleteUser)
@@ -54,6 +53,7 @@ const initWebRoutes = (app) => {
     router.post("/api/wards/update-border", wardController.updateBorder)
     router.post("/api/wards/update-border-id", wardController.updateBorderID)
     router.post("/api/wards/get-by-province-district-id", wardController.getWardSignUp)
+    router.post("/api/wards/get-by-district-id", wardController.getWardDistrict)
 
     //street
     router.get("/api/streets/get-all", streetController.getAllStreet)
@@ -97,7 +97,14 @@ const initWebRoutes = (app) => {
     router.get("/api/post/furniture", postController.getFurniture);
     router.post("/api/post/delete_post", postController.deletePost);
     router.post("/api/post/update_status", middlewareController.verifyTokenAndStaffAuth, postController.updateStatus)
-    router.post("/api/post/update", postController.updatePost)
+    router.post("/api/post/update", postController.updatePost);
+
+    //statistic
+    router.post("/api/statistics/user-month", middlewareController.verifyTokenAndAdminAuth, statisticController.statisticsUserMonth)
+    router.post("/api/statistics/post-month", middlewareController.verifyTokenAndAdminAuth, statisticController.statisticsPostMonth)
+    router.post("/api/statistics/zoning-month", middlewareController.verifyTokenAndAdminAuth, statisticController.statisticsZoningMonth)
+    router.post("/api/statistics/post-field", middlewareController.verifyTokenAndAdminAuth, statisticController.statisticsPostField)
+
     //get province_id, district_id, ward_id by lat,lng
     router.post("/api/get_address_by_latlng", postController.getAddressByLatLng);
 

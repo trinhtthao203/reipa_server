@@ -38,6 +38,7 @@ const Constants = {
         GET_DISTRICT_BYPROVINCE: "/districts/get-by-province",
         GET_WARD_LIST: "/wards/get-all",
         GET_WARD_BY_DISTRICT_PROVINCE: "/wards/get-by-province-district-id",
+        GET_WARD_BY_DISTRICT: "/wards/get-by-district-id",
         GET_STREET_LIST: "/streets/get-all",
         GET_STREET_BY_DISTRICT_PROVINCE: "/streets/get-by-province-district-id",
 
@@ -47,11 +48,21 @@ const Constants = {
         ZONING_UPDATE_STATUS: "/zoning/update_status",
 
         POST_GET_ALL: "/post/get_all",
-
+        POST_DELETE: "/post/delete_post",
+        POST_GEOJSON_BY_ID: "/post/geojson_post_by_id",
+        POST_UPDATE_STATUS: "/post/update_status",
         STATUS_GET_ALL: "/status/get-all",
 
         IMAGE_BY_ZONING: "/images/get_all_by_zoning_id",
         IMAGE_BY_POST: "/images/get_all_by_post_id",
+
+        STATISTIC_USER_MONTH: "/statistics/user-month",
+        STATISTIC_POST_MONTH: "/statistics/post-month",
+        STATISTIC_ZONING_MONTH: "/statistics/zoning-month",
+        STATISTIC_POST_FIELD: "/statistics/post-field",
+
+        TYPEOF_POST: "post/type_of_post",
+        TYPEOF_REAL_ESTATE: "post/type_of_real_estate",
     },
 
     /**

@@ -9,6 +9,7 @@ const Screens = {
     HANDLE_ZONING: "/zoning/handle-zoning",
 
     POST: "/post",
+    HANDLE_POST: "/post/handle-post",
 
     DATABASE: "/database",
     PROFILE: "/profile",

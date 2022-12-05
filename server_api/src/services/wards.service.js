@@ -169,10 +169,40 @@ const checkExistsWardID = (province_id, district_id, ward_id) => {
     })
 }
 
+const handleGetWardDistrict = (district_id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let wardData = await db.Wards.findAll({
+                where: {
+                    district_id: district_id
+                },
+                order: [
+                    ['name', 'ASC'],
+                ],
+            })
+            if (wardData) {
+                resolve({
+                    code: 200,
+                    data: wardData
+                });
+            } else {
+                resolve({
+                    code: 400,
+                    data: {
+                        message: Strings.Message.NOT_FOUND_MESSAGE,
+                    }
+                });
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    })
+}
 module.exports = {
     handleGetAllWard: handleGetAllWard,
     getHandleWardSignUp: getHandleWardSignUp,
     handleUpdateBorderID: handleUpdateBorderID,
     checkExistsWardID: checkExistsWardID,
-    handleGetBorderWardByID: handleGetBorderWardByID
+    handleGetBorderWardByID: handleGetBorderWardByID,
+    handleGetWardDistrict: handleGetWardDistrict
 }

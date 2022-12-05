@@ -15,6 +15,7 @@ import Loading from "./screens/Loading"
 import HandleAccount from "./screens/account/handleAccount"
 import Database from "./screens/database"
 import HandleZoning from "./screens/zoning/handleZoning"
+import HandlePost from "./screens/post/handlePost"
 import Statistics from "./screens/statistics"
 import Page404 from "./screens/page404/Page404"
 
@@ -59,6 +60,10 @@ function App() {
           <Route
             path={Screens.HANDLE_ZONING}
             element={<HandleZoning />}
+          />
+          <Route
+            path={Screens.HANDLE_POST}
+            element={<HandlePost />}
           />
           <Route
             path={Screens.STATISTICS}

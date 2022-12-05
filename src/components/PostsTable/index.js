@@ -11,7 +11,9 @@ import Screens from "../../constants/screens";
 import { red } from "@mui/material/colors";
 
 import ZoningService from "../../services/zoning.service";
+import PostService from "../../services/post.service";
 const zoningService = new ZoningService();
+const postService = new PostService();
 
 const PostsTable = (props) => {
     const navigate = useNavigate();
@@ -84,13 +86,23 @@ const PostsTable = (props) => {
     ];
 
     const handleUpdate = (e) => {
-        navigate(Screens.HANDLE_ZONING, {
-            state: {
-                zoning_id: e,
-                isUpdate: true
-            }
-        });
+        if (props.isPosts) {
+            navigate(Screens.HANDLE_POST, {
+                state: {
+                    post_id: e,
+                    isUpdate: true
+                }
+            });
+        } else {
+            navigate(Screens.HANDLE_ZONING, {
+                state: {
+                    zoning_id: e,
+                    isUpdate: true
+                }
+            });
+        }
     }
+
 
     const handleDelete = (e) => {
         Swal.fire({
@@ -104,12 +116,31 @@ const PostsTable = (props) => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const result = await zoningService.delete(e);
-                    Swal.fire(
-                        'Đã xóa!',
-                        result.data.message,
-                        'success'
-                    )
+                    if (props.isPosts) {
+                        const result = await postService.delete(e);
+                        Swal.fire(
+                            'Đã xóa!',
+                            result.data.message,
+                            'success'
+                        )
+                        navigate(Screens.POST, {
+                            state: {
+                                changePage: false,
+                            }
+                        })
+                    } else {
+                        const result = await zoningService.delete(e);
+                        Swal.fire(
+                            'Đã xóa!',
+                            result.data.message,
+                            'success'
+                        )
+                        navigate(Screens.ZONING, {
+                            state: {
+                                changePage: true,
+                            }
+                        })
+                    }
                 } catch (err) {
                     Swal.fire(
                         'Xóa Không thành công!',

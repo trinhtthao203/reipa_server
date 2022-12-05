@@ -122,11 +122,28 @@ const updateBorderID = async (req, res) => {
     })
 }
 
+const getWardDistrict = async (req, res) => {
+    const { district_id } = req.body;
+    if (!district_id) {
+        return res.status(400).json({
+            code: 400,
+            data: {
+                message: Strings.Wards.REQUEST_DISTRICT_MESSAGE,
+            }
+        })
+    }
+    let wardData = await wardService.handleGetWardDistrict(district_id);
 
+    return res.status(200).json({
+        code: wardData.code,
+        data: wardData.data ? wardData.data : {}
+    })
+}
 module.exports = {
     getAllWard: getAllWard,
     getWardSignUp: getWardSignUp,
     updateBorder: updateBorder,
     updateBorderID: updateBorderID,
-    getBorderWardByID: getBorderWardByID
+    getBorderWardByID: getBorderWardByID,
+    getWardDistrict: getWardDistrict
 }

@@ -52,7 +52,7 @@ module.exports = {
         furniture_id: 1,
         juridical_id: 2,
         province_id: 20,
-        district_id: 180,
+        district_id: 177,
         ward_id: 2338,
         street_id: null,
         typeof_real_estate_id: 6,

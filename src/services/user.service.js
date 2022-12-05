@@ -81,6 +81,16 @@ class UserService extends BaseService {
         return result.data;
     }
 
+    getWardByDistrict = async (district_id) => {
+        const result = await this.api.post({
+            path: Constants.ApiPath.GET_WARD_BY_DISTRICT,
+            data: {
+                district_id: district_id
+            }
+        })
+        return result.data;
+    }
+
     getStreetByProvinceDistrict = async (province_id, district_id) => {
         const result = await this.api.post({
             path: Constants.ApiPath.GET_STREET_BY_DISTRICT_PROVINCE,

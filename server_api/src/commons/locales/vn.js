@@ -37,6 +37,8 @@ export default {
 
     User: {
         REQUEST_ID_MESSAGE: "Vui lòng nhập mã tài khoản",
+        REQUEST_STARTD_MESSAGE: "Vui lòng nhập ngày bắt đầu",
+        REQUEST_ENDD_MESSAGE: "Vui lòng nhập ngày kết thúc",
         ID_INCORRECT_MESSAGE: "Id tài khoản không tồn tại",
         PASSWORD_INCORRECT_MESSAGE: "Mật khẩu không đúng",
         PHONENUMBER_REQUIRED_MESSAGE: "Vui lòng nhập số điện thoại",

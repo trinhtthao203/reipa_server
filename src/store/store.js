@@ -8,6 +8,8 @@ import streetReducer from "./slice/street.slice";
 import postReducer from "./slice/post.slice";
 import zoningReducer from "./slice/zoning.slice";
 import statusReducer from "./slice/status.slice";
+import typeofPostReducer from "./slice/typeofPost.slice";
+import typeofRealEstateReducer from "./slice/typeofRealEstate.slice";
 
 export const store = configureStore({
     reducer: {
@@ -20,5 +22,7 @@ export const store = configureStore({
         post: postReducer,
         zoning: zoningReducer,
         status: statusReducer,
+        typeofPost: typeofPostReducer,
+        typeofRealEstate: typeofRealEstateReducer,
     },
 })

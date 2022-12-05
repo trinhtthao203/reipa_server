@@ -105,7 +105,7 @@ function Zoning() {
         <Container >
             <Grid container sx={{ boxShadow: Constants.Styles.BOX_SHADOW, padding: 2, borderRadius: 1 }}>
                 <Grid item xs={12} mt={2}>
-                    <Typography style={{ fontWeight: "bold", fontSize: 20, margin: 10 }}>Danh sách quy hoạch</Typography>
+                    <Typography style={{ fontWeight: "bold", fontSize: 20, margin: 10 }}>Quản lý quy hoạch</Typography>
                     <Box>
                         {(
                             pagingState.currentPage &&
@@ -122,6 +122,7 @@ function Zoning() {
                                         page={pagingState.currentPage}
                                         allPosts={zoningList}
                                         status={statusList}
+                                        isPosts={false}
                                     />
                                 </Box>
                                 <Box sx={{ display: "flex", justifyContent: "right", marginTop: "20px" }}>

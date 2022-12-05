@@ -146,6 +146,12 @@ export default {
     },
     Post: {
         TITLE: "Bài đăng",
+        ADDRESS: "Địa chỉ",
+        AREA: "Diện tích",
+        PRICE: "Mức giá",
+        JURIDICAL: "Pháp lý",
+        FURNITURE: "Nội thất",
+        DESCRIPTION: "Mô tả",
     },
     Zoning: {
         TITLE: "Quy hoạch",
@@ -167,6 +173,7 @@ export default {
     },
     Statistics: {
         TITLE: "Thống kê",
+        DETAIL: "Xem chi tiết",
     },
     Home: {
         TITLE: "Trang chủ",

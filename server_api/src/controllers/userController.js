@@ -288,6 +288,33 @@ const getByID = async (req, res) => {
         data: userData.data ? userData.data : {}
     })
 }
+
+const statisticsUserMonth = async (req, res) => {
+    const { startd, endd } = req.body;
+    if (!startd) {
+        return res.status(401).json({
+            code: 401,
+            data: {
+                message: Strings.User.REQUEST_STARTD_MESSAGE
+            }
+        })
+    }
+    if (!endd) {
+        return res.status(401).json({
+            code: 401,
+            data: {
+                message: Strings.User.REQUEST_ENDD_MESSAGE
+            }
+        })
+    }
+
+    let userData = await userService.handleStatisticsUser(req.body);
+    return res.status(200).json({
+        code: userData.code,
+        data: userData.data ? userData.data : {}
+    })
+}
+
 module.exports = {
     handleLogIn: handleLogIn,
     getAllUser: getAllUser,
@@ -298,5 +325,6 @@ module.exports = {
     getAllRole: getAllRole,
     deleteUser: deleteUser,
     updateUser: updateUser,
-    getByID: getByID
+    getByID: getByID,
+    statisticsUserMonth: statisticsUserMonth
 }

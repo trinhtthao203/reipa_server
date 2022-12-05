@@ -30,6 +30,8 @@ const handleGetAllUser = (page, size) => {
                     Strings.Database.STREET_ID,
                     Strings.Database.WARD_ID,
                     Strings.Database.ROLE_ID,
+                    "createdAt",
+                    "updatedAt",
                 ],
                 limit: parseInt(size),
                 offset: parseInt(page) * parseInt(size),
@@ -422,6 +424,7 @@ const handlGetByID = (user_id) => {
         }
     })
 }
+
 module.exports = {
     handleUserLogIn: handleUserLogIn,
     handleGetAllUser: handleGetAllUser,
