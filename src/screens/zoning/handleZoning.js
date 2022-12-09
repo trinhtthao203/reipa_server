@@ -330,7 +330,7 @@ function HandleZoning() {
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>
                                     <TextField
-                                        disabled={isUpdate}
+                                        InputProps={{ readOnly: isUpdate, disableUnderline: true }}
                                         required
                                         error={errorZoning.errorName}
                                         value={zoning.name}
@@ -343,7 +343,7 @@ function HandleZoning() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        disabled={isUpdate}
+                                        InputProps={{ readOnly: isUpdate, disableUnderline: true }}
                                         required
                                         value={zoning.purpose}
                                         label={Strings.Zoning.PURPOSE}
@@ -355,7 +355,7 @@ function HandleZoning() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        disabled={isUpdate}
+                                        InputProps={{ readOnly: isUpdate, disableUnderline: true }}
                                         value={zoning.address}
                                         label={Strings.Zoning.ADDRESS}
                                         fullWidth
@@ -386,7 +386,6 @@ function HandleZoning() {
                                         <InputLabel required id="demo-simple-select-label">{Strings.Province.TITLE}</InputLabel>
                                         <Select
                                             disabled={isUpdate}
-
                                             error={errorZoning.errorProvince}
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
@@ -406,7 +405,6 @@ function HandleZoning() {
                                         <InputLabel required id="demo-simple-select-label">{Strings.District.TITLE}</InputLabel>
                                         <Select
                                             disabled={isUpdate}
-
                                             error={errorZoning.errorDistrict}
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
@@ -442,7 +440,7 @@ function HandleZoning() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        disabled={isUpdate}
+                                        InputProps={{ readOnly: isUpdate, disableUnderline: true }}
                                         value={zoning.width}
                                         label={Strings.Zoning.WIDTH}
                                         fullWidth
@@ -452,7 +450,7 @@ function HandleZoning() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        disabled={isUpdate}
+                                        InputProps={{ readOnly: isUpdate, disableUnderline: true }}
                                         value={zoning.length}
                                         label={Strings.Zoning.LENGTH}
                                         fullWidth
@@ -462,7 +460,7 @@ function HandleZoning() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        disabled={isUpdate}
+                                        InputProps={{ readOnly: isUpdate, disableUnderline: true }}
                                         value={zoning.area}
                                         label={Strings.Zoning.AREA}
                                         fullWidth

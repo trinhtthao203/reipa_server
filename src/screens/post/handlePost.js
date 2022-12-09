@@ -330,7 +330,7 @@ function HandlePost() {
                     >
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                             <Typography variant="h6" gutterBottom>
-                                {isUpdate ? "Duyệt" : "Tạo mới"} quy hoạch
+                                {isUpdate ? "Duyệt" : "Tạo mới"} bài đăng
                             </Typography>
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>

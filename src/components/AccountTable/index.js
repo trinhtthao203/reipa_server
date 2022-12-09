@@ -75,7 +75,7 @@ const AccountTable = (props) => {
         },
         {
             field: "col5", headerName: "", width: 150, renderCell: (params) => [
-                <Button onClick={() => handleUpdate(params.id)} ><Edit sx={{ color: Constants.Styles.COLOR_ATHENSGRAY }} /></Button>,
+                <Button onClick={() => handleUpdate(params.id)} ><Edit sx={{ color: Constants.Styles.COLOR_CHETWODE_BLUE }} /></Button>,
                 <Button onClick={() => handleDelete(params.id)}><Delete sx={{ color: Constants.Styles.COLOR_AMBER }} /></Button>
             ]
         }

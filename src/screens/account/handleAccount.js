@@ -217,13 +217,13 @@ export default function HandleAccount() {
                     >
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                             <Typography variant="h6" gutterBottom>
-                                Tạo người dùng mới
+                                {isUpdate ? "Cấp quyền tài khoản" : "Tạo người dùng mới"}
                             </Typography>
 
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>
                                     <TextField
-                                        disabled={isUpdate}
+                                        InputProps={{ readOnly: isUpdate, disableUnderline: true }}
                                         required
                                         error={errorUser.errorName}
                                         value={user.fullname}
@@ -236,7 +236,7 @@ export default function HandleAccount() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        disabled={isUpdate}
+                                        InputProps={{ readOnly: isUpdate, disableUnderline: true }}
                                         required
                                         error={errorUser.errorPhone}
                                         helperText={errorUser.errorPhone ? errorUser.errorPhoneMsg : null}
@@ -251,7 +251,7 @@ export default function HandleAccount() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        disabled={isUpdate}
+                                        InputProps={{ readOnly: isUpdate, disableUnderline: true }}
                                         value={user.address}
                                         label={Strings.Account.ADDRESS}
                                         fullWidth

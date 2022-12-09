@@ -44,6 +44,11 @@ const PostsTable = (props) => {
             <p style={{ color: colorArray[params.value.id - 1] }}>{params.value.name}</p>
         )
     };
+    const renderTitle = (params) => {
+        return (
+            <p style={{ fontWeight: "bold" }}>{params.value}</p>
+        )
+    };
 
     const columns = [
         {
@@ -53,8 +58,9 @@ const PostsTable = (props) => {
         },
         {
             field: "name",
-            headerName: "Tên",
-            width: 750
+            headerName: "Tiêu đề",
+            width: 650,
+            renderCell: renderTitle
         },
         // {
         //     field: "phonenumber",
