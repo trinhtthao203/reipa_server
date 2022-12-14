@@ -228,7 +228,7 @@ module.exports = {
       },
       {
         id: 29,
-        name: "nhatro-01.jpg",
+        name: "nha-tro-01.jpg",
         zoning_id: null,
         post_id: 5,
         createdAt: new Date("5-8-22"),
@@ -236,7 +236,7 @@ module.exports = {
       },
       {
         id: 30,
-        name: "nhatro-02.jpg",
+        name: "nha-tro-02.jpg",
         zoning_id: null,
         post_id: 5,
         createdAt: new Date("5-8-22"),
@@ -244,7 +244,7 @@ module.exports = {
       },
       {
         id: 31,
-        name: "nhatro-03.jpg",
+        name: "nha-tro-03.jpg",
         zoning_id: null,
         post_id: 5,
         createdAt: new Date("5-8-22"),

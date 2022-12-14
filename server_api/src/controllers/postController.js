@@ -86,7 +86,7 @@ const addPost = async (req, res) => {
 }
 
 const getPostByDistanceLatLng = async (req, res) => {
-    const { status_id, lat, lng, distance } = req.body;
+    const { status_id, lat, lng, distance, price, area, typeof_post, typeof_real_estate } = req.body;
     if (!status_id) {
         return res.status(400).json({
             code: 400,
@@ -104,7 +104,7 @@ const getPostByDistanceLatLng = async (req, res) => {
             }
         })
     }
-    let postData = await postService.handleGetPostDistance(status_id, lat, lng, parseFloat(distance));
+    let postData = await postService.handleGetPostDistance(status_id, lat, lng, parseFloat(distance), price, area, typeof_post, typeof_real_estate);
 
     return res.status(200).json({
         code: postData.code,

@@ -161,6 +161,7 @@ const handleUploadImage = async (id, dataImage) => {
 }
 
 const handleAddZoning = (zoning, dataImage) => {
+    console.log(zoning)
     return new Promise(async (resolve, reject) => {
         try {
             const max = await db.Zonings.max('id');

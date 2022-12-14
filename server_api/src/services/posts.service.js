@@ -37,6 +37,10 @@ const handleAddPost = (post, dataImage) => {
                 price: post.price,
                 address: post.address,
                 area: post.area,
+                length: post.length,
+                width: post.width,
+                front: post.front,
+                direction: post.direction,
                 juridical_id: post.juridical_id ? post.juridical_id : null,
                 furniture_id: post.furniture_id ? post.furniture_id : null,
                 structure: post.structure,
@@ -77,22 +81,77 @@ const handleAddPost = (post, dataImage) => {
     })
 }
 
-const handleGetPostDistance = (status_id, lat, lng, distance) => {
+const handleGetPostDistance = (status_id, lat, lng, distance, price, area, typeof_post, typeof_real_estate) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let postData = await sequelize.query(
-                `
+            let postData
+            if (typeof_post != 0 && typeof_real_estate != 0) {
+                console.log(typeof_real_estate, typeof_post)
+                postData = await sequelize.query(
+                    `
                 SELECT p.*,u.fullname as user_name, u.phonenumber, ROUND(((p.geometry::geography <-> ST_SetSRID(ST_MakePoint(?,?), 4326)::geography))::numeric,2) as dis_m 
                 FROM public."Posts" AS p
                 LEFT JOIN public."Users" AS u ON p.user_id = u.id
                 WHERE ROUND(((p.geometry::geography <-> ST_SetSRID(ST_MakePoint(?,?), 4326)::geography))::numeric,2)<(?) AND p.status_id=(?)
+                AND p.price <(?) AND p.area <(?) AND p.typeof_real_estate_id=(?) AND p.typeof_posts_id=(?)
                 ORDER BY dis_m ASC
                 `,
-                {
-                    replacements: [lat, lng, lat, lng, distance, status_id],
-                    type: QueryTypes.SELECT
-                }
-            );
+                    {
+                        replacements: [lat, lng, lat, lng, distance, status_id, price, area, typeof_real_estate, typeof_post],
+                        type: QueryTypes.SELECT
+                    }
+                );
+            }
+            if (typeof_post != 0 && typeof_real_estate == 0) {
+                postData = await sequelize.query(
+                    `
+                SELECT p.*,u.fullname as user_name, u.phonenumber, ROUND(((p.geometry::geography <-> ST_SetSRID(ST_MakePoint(?,?), 4326)::geography))::numeric,2) as dis_m 
+                FROM public."Posts" AS p
+                LEFT JOIN public."Users" AS u ON p.user_id = u.id
+                WHERE ROUND(((p.geometry::geography <-> ST_SetSRID(ST_MakePoint(?,?), 4326)::geography))::numeric,2)<(?) AND p.status_id=(?)
+                AND p.price<(?) AND p.area<(?) AND p.typeof_posts_id=(?)
+                ORDER BY dis_m ASC
+                `,
+                    {
+                        replacements: [lat, lng, lat, lng, distance, status_id, price, area, typeof_post],
+                        type: QueryTypes.SELECT
+                    }
+                );
+            }
+            if (typeof_post == 0 && typeof_real_estate != 0) {
+                postData = await sequelize.query(
+                    `
+                SELECT p.*,u.fullname as user_name, u.phonenumber, ROUND(((p.geometry::geography <-> ST_SetSRID(ST_MakePoint(?,?), 4326)::geography))::numeric,2) as dis_m 
+                FROM public."Posts" AS p
+                LEFT JOIN public."Users" AS u ON p.user_id = u.id
+                WHERE ROUND(((p.geometry::geography <-> ST_SetSRID(ST_MakePoint(?,?), 4326)::geography))::numeric,2)<(?) AND p.status_id=(?)
+                AND p.price<(?) AND p.area<(?) AND p.typeof_real_estate_id=(?)
+                ORDER BY dis_m ASC
+                `,
+                    {
+                        replacements: [lat, lng, lat, lng, distance, status_id, price, area, typeof_real_estate],
+                        type: QueryTypes.SELECT
+                    }
+                );
+            }
+
+            if (typeof_post == 0 && typeof_real_estate == 0) {
+                postData = await sequelize.query(
+                    `
+                SELECT p.*,u.fullname as user_name, u.phonenumber, ROUND(((p.geometry::geography <-> ST_SetSRID(ST_MakePoint(?,?), 4326)::geography))::numeric,2) as dis_m 
+                FROM public."Posts" AS p
+                LEFT JOIN public."Users" AS u ON p.user_id = u.id
+                WHERE ROUND(((p.geometry::geography <-> ST_SetSRID(ST_MakePoint(?,?), 4326)::geography))::numeric,2)<(?) AND p.status_id=(?)
+                AND p.price<(?) AND p.area<(?)
+                ORDER BY dis_m ASC
+                `,
+                    {
+                        replacements: [lat, lng, lat, lng, distance, status_id, price, area],
+                        type: QueryTypes.SELECT
+                    }
+                );
+            }
+
             if (postData) {
                 resolve({
                     code: 200,

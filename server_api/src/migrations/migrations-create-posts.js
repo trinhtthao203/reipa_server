@@ -21,6 +21,18 @@ module.exports = {
       area: {
         type: Sequelize.FLOAT
       },
+      width: {
+        type: Sequelize.FLOAT
+      },
+      length: {
+        type: Sequelize.FLOAT
+      },
+      front: {
+        type: Sequelize.FLOAT
+      },
+      direction: {
+        type: Sequelize.STRING
+      },
       juridical_id: {
         type: Sequelize.INTEGER,
         references: {
