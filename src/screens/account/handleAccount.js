@@ -46,6 +46,7 @@ export default function HandleAccount() {
                 phonenumber: result.data[0].phonenumber,
                 address: result.data[0].address,
                 role_id: result.data[0].role_id,
+                avatar: result.data[0].avatar,
             })
         } catch (err) {
             console.log(err);
@@ -138,7 +139,7 @@ export default function HandleAccount() {
         if (Helpers.isNullOrEmpty(user.role_id) === false) {
             console.log(user);
             try {
-                var result = await userService.update(user.id, user.role_id);
+                var result = await userService.update(user.id, user.role_id, user.avatar);
                 console.log(result.code);
                 if (result.code === 200)
                     Swal.fire({

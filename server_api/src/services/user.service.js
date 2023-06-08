@@ -364,7 +364,7 @@ const handleUpdateUser = (user, userImage) => {
                     fullname: user.fullname,
                     role_id: user.role_id,
                     address: user.address,
-                    avatar: userImage ? userImage.filename : null,
+                    avatar: userImage ? userImage.filename : user.avatar,
                 },
                 { where: { id: user.id } }
             )

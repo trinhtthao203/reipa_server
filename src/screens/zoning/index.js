@@ -5,7 +5,6 @@ import Constants from '../../constants';
 import Screens from '../../constants/screens';
 import Strings from '../../constants/strings';
 import Loading from "../Loading";
-import Swal from 'sweetalert2';
 import PostsTable from '../../components/PostsTable';
 
 //elelment
@@ -20,12 +19,9 @@ import {
 //function
 import ZoningService from "../../services/zoning.service";
 import StatusService from "../../services/status.service";
-import PostService from "../../services/post.service";
 
 const zoningService = new ZoningService();
 const statusService = new StatusService();
-const postService = new PostService();
-
 
 function Zoning() {
     const navigate = useNavigate();

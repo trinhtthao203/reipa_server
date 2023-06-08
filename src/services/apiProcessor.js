@@ -353,7 +353,6 @@ class ApiProcessor {
             console.warn('#onErrorCallback: Error server')
           }
           if (Helpers.isFunction(request.onError)) {
-            const message = response.data?.message
             request.onError(response.data)
           }
           return

@@ -129,7 +129,7 @@ class UserService extends BaseService {
         return result.data;
     }
 
-    update = async (user_id, role_id) => {
+    update = async (user_id, role_id, avatar) => {
         const result = await this.api.post({
             path: Constants.ApiPath.UPDATE_USER,
             headers: {
@@ -137,7 +137,8 @@ class UserService extends BaseService {
             },
             data: {
                 id: user_id,
-                role_id: role_id
+                role_id: role_id,
+                avatar: avatar
             }
         })
         return result.data;
